@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV Creator</title>
+    <!-- Include Tailwind CSS from CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Hide dropdown content by default */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            min-width: 160px;
+            z-index: 1;
+        }
+        /* Show dropdown content on click */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        /* Style for the selection boxes */
+        .selection-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Changed from center to space-between */
+            height: auto; 
+            background-color: #E2E8F0; /* Tailwind gray-200 */
+            border-radius: 0.25rem; /* Tailwind rounded */
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+            gap: 0.5rem;
+        }
+        .selection-box input[type="text"] {
+        /* Style for the delete button */
+        flex-grow: 1; /* Allows the input to grow and fill available space */
+        min-width: 0; /* Prevents the input from forcing its parent to overflow */
+        margin-left: 0.5rem; /* Adds some margin between label and input */
+        }
+        .delete-btn {
+            cursor: pointer;
+            background-color: #F87171; /* Tailwind red-400 */
+            color: white;
+            border: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem; /* Tailwind rounded */
+            white-space: nowrap;
+        }
+        /* Input for CSV file name */
+        .csv-name-input {
+            margin-top: 1rem;
+            padding: 0.5rem;
+            border-radius: 0.25rem; /* Tailwind rounded */
+            border: 1px solid #E2E8F0; /* Tailwind gray-200 */
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto mt-8">
+        <h1 class="text-3xl font-bold text-center text-gray-900">Profile CSV Generator</h1>
+    </div>
+    <!-- Top Navigation Bar -->
+    <nav class="bg-white shadow-lg">
+        <ul class="flex justify-around py-4">
+            <li class="dropdown"><a href="#" class="text-gray-700 hover:text-gray-900 px-2">Required</a>
+                <div class="dropdown-content bg-white shadow-lg">
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">Profile</a>
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">Name</a>
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">Email</a>
+                </div>
+            </li>
+            <li class="dropdown"><a href="#" class="text-gray-700 hover:text-gray-900 px-2">Personal Information</a>
+                 <div class="dropdown-content bg-white shadow-lg">
+                      <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">Address</a>
+                      <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">Address 2</a>
+                      <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">City</a>
+                      <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">State</a>
+                      <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">Zip Code</a>
+                      <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">Phone Number</a>
+                      <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">DOB</a>
+                 </div>
+            </li>
+            <li class="dropdown"><a href="#" class="text-gray-700 hover:text-gray-900 px-2">Credit card info (Optional)</a>
+                <div class="dropdown-content bg-white shadow-lg">
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">CC Number:</a>
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">CC CVV:</a>
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">CC Exp Date:</a>
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">CC Address:</a>
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">CC Address2:</a>
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">CC City:</a>
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">CC State:</a>
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">CC Zip:</a>
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">CC Note:</a>
+                </div>
+            </li>
+            <li class="dropdown"><a href="#" class="text-gray-700 hover:text-gray-900 px-2">Site columns (Optional)</a>
+                <div class="dropdown-content bg-white shadow-lg">
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">Site:Ticketmaster</a>
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">Site:AXS</a>
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">Site:</a>
+                </div>
+            </li>
+            <li class="dropdown"><a href="#" class="text-gray-700 hover:text-gray-900 px-2">Misc</a>
+                <div class="dropdown-content bg-white shadow-lg">
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">Group</a>
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">SMS Number</a>
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">Buyer</a>
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">Proxy</a>
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">Proxy Resolver</a>
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">Notes</a>
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">URL</a>
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">Persist Cookies</a>
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">Passcode</a>
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">Passcode2</a>
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">Passcode3</a>
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">Passcode4</a>
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">Passcode5</a>
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">Free 1</a>
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">Free 2</a>
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">Free 3</a>
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">Free 4</a>
+                    <a href="#" class="dropdown-item text-gray-700 hover:text-gray-900 px-2 block">Free 5</a>
+                    
+                </div>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Content Area -->
+    <div class="container mx-auto mt-8">
+        <!-- Container for selected options -->
+        <div id="selectedOptions" class="grid grid-cols-4 gap-4">
+            <!-- Selected options will appear here -->
+        </div>
+
+        <!-- Input to specify the CSV file name -->
+        <input type="text" id="csvFileName" placeholder="Enter CSV file name" class="csv-name-input" />
+
+        <!-- Button to Create CSV -->
+        <button id="createCsvBtn" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Create CSV
+        </button>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        function canHaveDuplicates(text) {
+            // Allow duplicates if the text is exactly "Site:" or starts with "CC"
+            return text.trim() === "Site:" || text.trim().startsWith("CC");
+        }
+
+        // Array to track all selections made
+        let allSelections = [];
+
+        // Function to add a new selection box
+        function addSelection(text) {
+            const selectionContainer = document.getElementById('selectedOptions');
+            const selectionBox = document.createElement('div');
+            const deleteBtn = document.createElement('button');
+            const editablePart = document.createElement('input'); // Create an input element for editable content
+            // Check if the selection is allowed to be duplicated
+            const canDuplicate = canHaveDuplicates(text);
+
+            selectionBox.id = 'selection-' + Date.now(); // Example ID: 'selection-1589471234567'
+
+            // Set draggable attribute and classes for styling and draggability
+             selectionBox.setAttribute('draggable', true);
+             selectionBox.classList.add('selection-box', 'flex', 'justify-between', 'items-center', 'p-2', 'bg-gray-200', 'mt-2', 'rounded', 'cursor-move');
+
+            // Check for duplicates if not allowed to be duplicated
+            if (!canDuplicate && allSelections.includes(text)) {
+                alert('This selection has already been made and cannot be duplicated.');
+                return; // Prevent adding the selection
+            }
+
+            // Add the selection text to the array for tracking
+            allSelections.push(text);
+
+            
+            selectionBox.className = 'selection-box flex justify-between items-center p-2 bg-gray-200 mt-2 rounded';
+            //selectionBox.textContent = text;
+
+            deleteBtn.textContent = 'Delete';
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.onclick = function() {
+                //selectionContainer.removeChild(selectionBox);
+                let selectionText;
+                if (editablePart.parentNode && editablePart.value.trim() !== '') {
+                    selectionText = `${text.trim()}${editablePart.value.trim()}`;
+                } else {
+                     selectionText = text.trim();
+                }
+
+                // Remove the selection from the allSelections array
+                allSelections = allSelections.filter(item => item !== selectionText);
+
+                // Remove the selection box from the DOM
+                selectionContainer.removeChild(selectionBox);
+            };
+
+            if (text.trim().endsWith(":") && !text.trim().match(/:.+/)) {
+                const staticText = document.createTextNode(`${text} `); // Static part of the text  
+                editablePart.setAttribute('type', 'text'); // Set input type
+                editablePart.setAttribute('value', ''); // Initialize with empty value or a default value
+                editablePart.setAttribute('name', 'site'); // Set a name attribute for the input
+                editablePart.className = 'ml-2 border border-gray-300 rounded p-1'; // Tailwind classes for styling
+                
+                selectionBox.appendChild(staticText);
+                selectionBox.appendChild(editablePart);
+            } else {
+                // For non-editable selections, display text directly
+                const textNode = document.createTextNode(text);
+                selectionBox.appendChild(textNode);
+            }
+
+
+            selectionBox.appendChild(deleteBtn);
+            selectionContainer.appendChild(selectionBox);
+
+            // Add event listeners for drag-and-drop
+            selectionBox.addEventListener('dragstart', handleDragStart);
+            selectionBox.addEventListener('dragover', handleDragOver);
+            selectionBox.addEventListener('drop', handleDrop);
+        }
+
+        // Helper function to swap elements
+        function swapElements(obj1, obj2) {
+            // create marker element and insert it where obj1 is
+            let temp = document.createElement("div");
+            obj1.parentNode.insertBefore(temp, obj1);
+
+            // move obj1 to right before obj2
+            obj2.parentNode.insertBefore(obj1, obj2);
+
+            // move obj2 to right before where obj1 used to be
+            temp.parentNode.insertBefore(obj2, temp);
+
+            // remove temporary marker node
+            temp.parentNode.removeChild(temp);
+        }
+
+        // Function to handle the drag start
+        function handleDragStart(e) {
+
+            e.dataTransfer.setData('text/plain', e.target.id);
+            e.dataTransfer.dropEffect = 'move';
+        }
+
+        // Function to handle the drop
+        function handleDrop(e) {
+            e.preventDefault();
+            const id = e.dataTransfer.getData('text/plain');
+            const draggableElement = document.getElementById(id);
+            const dropzone = e.target.closest('.selection-box');
+            swapElements(draggableElement, dropzone);
+        }
+
+        // Function to prevent the default handling of the element
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+
+        // Add event listeners
+        document.addEventListener('DOMContentLoaded', (event) => {
+            let selectionBoxes = document.querySelectorAll('.selection-box');
+            selectionBoxes.forEach(box => {
+                box.addEventListener('dragstart', handleDragStart);
+                box.addEventListener('dragover', handleDragOver);
+                box.addEventListener('drop', handleDrop);
+            });
+        });
+
+
+        // Event listeners for dropdown items
+        document.querySelectorAll('.dropdown-item').forEach(item => {
+            item.addEventListener('click', function() {
+                addSelection(this.textContent);
+            });
+        });
+
+        document.getElementById('createCsvBtn').addEventListener('click', function() {
+            const requiredSelections = ['Profile', 'Name', 'Email'];
+            let hasAllRequiredSelections = true;
+            let selectionsMade = [];
+
+            const exampleData = {
+                // Required
+                "Profile": "Profile 1",
+                "Name": "John Doe",
+                "Email": "johndoe@gmail.com",
+                //Personal Info
+                "Address": "500 random ct",
+                "Address2": "",
+                "City": "unit 4",
+                "State": "MD",
+                "ZipCode": "21030",
+                "PhoneNumber": "5555555555",
+                "DOB": "11/25/1983",
+                // Credit Card
+                "CCNumber": "2222111133334444",
+                "CCCVV": "111",
+                "CCExpDate": "06/26",
+                "CCAddress": "200 random ct",
+                "CCAddress2": "apt 3",
+                "CCCity": "Dallas",
+                "CCState": "TX",
+                "CCZip": "11078",
+                "CCNote": "Add note here",
+                // Site 
+                "SiteTicketmaster": "password=, emailcode=, smscode=",
+                "SiteAXS": "password=, emailcode=, smscode=",
+                "Site:": "password=, emailcode=, smscode=",
+                // MISC
+                "Group": "Group 1",
+                "SMSNumber": "1111111111",
+                "Buyer": "Buyer 1, Buyer 2",
+                "Proxy": "host:port:username:password or host:port",
+                "ProxyResolver": "name-of-resolver:args",
+                "Notes": "Add notes here",
+                "URL": "google.com",
+                "PersistCookies": "Read Documention",
+                "Passcode": "add code here",
+                "Passcode2": "add code here",
+                "Passcode3": "add code here",
+                "Passcode4": "add code here",
+                "Passcode5": "add code here",
+                "Free1": "add info here",
+                "Free2": "add info here",
+                "Free3": "add info here",
+                "Free4": "add info here",
+                "Free5": "add info here"
+            };
+
+
+            // Get all selected options, with or without user input
+            let selectedOptions = document.querySelectorAll('.selection-box');
+            selectedOptions.forEach(box => {
+                const inputField = box.querySelector('input');
+                let selectionText = box.childNodes[0].textContent.trim();
+                if (inputField) {
+                    // Append user input if there is any, otherwise use the base text
+                    selectionText += inputField.value.trim() ? `:${inputField.value.trim()}` : "";
+                }
+                // Add to the selections array
+                selectionsMade.push(selectionText);
+            });
+
+            // Check for required selections
+            requiredSelections.forEach(required => {
+                if (!selectionsMade.some(selection => selection.startsWith(required))) {
+                    alert(`Missing required selection: ${required}`);
+                    hasAllRequiredSelections = false;
+                }
+            });
+
+            if (!hasAllRequiredSelections) { 
+                return;
+            }
+
+            // Generate the examplesRow using the selections and their corresponding example data
+            let examplesRow = selectionsMade.map(selection => {
+                let key = selection.includes(':') ? selection.split(':')[0] : selection;
+                let exampleValue = exampleData[key] || "Placeholder";
+                return `"${exampleValue}"`;
+            });
+
+            requiredSelections.forEach(required => {
+                if (!selectionsMade.some(selection => selection.includes(required))) {
+                    alert(`Missing required selection: ${required}`);
+                    hasAllRequiredSelections = false;
+                }
+            });
+
+            if (!hasAllRequiredSelections) { 
+                return;
+            }
+
+            // Convert arrays to CSV string
+            function arrayToCsv(data) {
+                return data.map(row => row.map(item => `"${item.replace(/"/g, '""')}"`).join(',')).join('\r\n');
+            }
+
+            let headersRow = selectedColumns.map(column => `"${column}"`);
+            let csvContent = [headersRow.join(','), examplesRow.join(',')].join('\r\n');
+
+            let csvFileName = document.getElementById('csvFileName').value.trim() || 'selection_data';
+            if (!csvFileName.toLowerCase().endsWith('.csv')) {
+                csvFileName += '.csv';
+            }
+
+            let blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            let link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.setAttribute('download', csvFileName);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+    </script>
+</body>
+</html>
